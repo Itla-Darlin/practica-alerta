@@ -1,0 +1,25 @@
+name: Alerta ntfy
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  notificar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Descargar el código
+        uses: actions/checkout@v4
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Ejecutar hola mundo
+        run: node index.js
+
+      - name: Enviar notificación a ntfy
+        run: |
+          curl -d "Nuevo push de ${{ github.actor }} en ${{ github.repository }}: ${{ github.event.head_commit.message }}" https://ntfy.sh/devops-itla
